@@ -136,90 +136,90 @@
 		}
 	}
   
-function ajax_post(operationType){
-    // ereate XMLHttpRequest object
-    let hr = new XMLHttpRequest();
-    let url = phpFileUrl;
-	// set parameters for PHP invoke
-	let vars = "operationType="+operationType+"&testID="+testID+"&userName="
-	+userName+"&userAnswer="+userAnswer+"&questionID="+questionID+"&correctAnswers="
-	+correctAnswers+"&totalQuestions="+totalQuestions;
-    hr.open("POST", url, true);
-    hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    // access the onreadystatechange event
-    hr.onreadystatechange = function(testStatus) {
-	    if(hr.readyState == 4 && hr.status == 200) {
-			if(hr.responseText.length > 5){
-				theResponse = JSON.parse(hr.responseText);
-				// if received tests, show menu
-				if(theResponse[0].TestID){
-					buildTestSelector(theResponse);
-				}
-				// if received questions, show question and answers
-				else if(theResponse[0].QuestionID){
-					totalQuestions = theResponse.length;
-					receivedQuestions = theResponse;
-					buildQuestion(receivedQuestions, 0)
+	function ajax_post(operationType){
+		// ereate XMLHttpRequest object
+		let hr = new XMLHttpRequest();
+		let url = phpFileUrl;
+		// set parameters for PHP invoke
+		let vars = "operationType="+operationType+"&testID="+testID+"&userName="
+		+userName+"&userAnswer="+userAnswer+"&questionID="+questionID+"&correctAnswers="
+		+correctAnswers+"&totalQuestions="+totalQuestions;
+		hr.open("POST", url, true);
+		hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		// access the onreadystatechange event
+		hr.onreadystatechange = function(testStatus) {
+			if(hr.readyState == 4 && hr.status == 200) {
+				if(hr.responseText.length > 5){
+					theResponse = JSON.parse(hr.responseText);
+					// if received tests, show menu
+					if(theResponse[0].TestID){
+						buildTestSelector(theResponse);
+					}
+					// if received questions, show question and answers
+					else if(theResponse[0].QuestionID){
+						totalQuestions = theResponse.length;
+						receivedQuestions = theResponse;
+						buildQuestion(receivedQuestions, 0)
+					}
 				}
 			}
 		}
-    }
-    // send the data to PHP
-	hr.send(vars);
-}
+		// send the data to PHP
+		hr.send(vars);
+	}
 
-// this function changes the progressBar state
-function moveProgressBar(level) {
-	let width = progressBar.style.width;
-	width = width.replace("%", "");
-	let id = setInterval(frame, 20);
-	function frame() {
-		if (width >= level) {
-			clearInterval(id);
+	// this function changes the progressBar state
+	function moveProgressBar(level) {
+		let width = progressBar.style.width;
+		width = width.replace("%", "");
+		let id = setInterval(frame, 20);
+		function frame() {
+			if (width >= level) {
+				clearInterval(id);
+			}
+		else {
+			width++; 
+			progressBar.style.width = width + '%'; 
 		}
-	else {
-		width++; 
-		progressBar.style.width = width + '%'; 
-    }
-  }
-}
+	  }
+	}
 
-// default variables and contants
-const chooseTest = "Izvēlies testu";
-const placeholder = "Ievadi savu vārdu";
-const colorWhite = "white";
-const colorBlack = "black";
-const itemBackgroundColor = "#379CC3";
-const enterName = "Ievadi savu vārdu!";
-const nextQuestion = "Nākamais";
-const chooseAnswer = "Izvēlies atbilžu variantu!";
-const startOver = "Sākt no jauna";
-const phpFileUrl = "operations.php";
+	// default variables and contants
+	const chooseTest = "Izvēlies testu";
+	const placeholder = "Ievadi savu vārdu";
+	const colorWhite = "white";
+	const colorBlack = "black";
+	const itemBackgroundColor = "#379CC3";
+	const enterName = "Ievadi savu vārdu!";
+	const nextQuestion = "Nākamais";
+	const chooseAnswer = "Izvēlies atbilžu variantu!";
+	const startOver = "Sākt no jauna";
+	const phpFileUrl = "operations.php";
 
-let theResponse;
-let testID;
-let testName;
-let userName;
-let userAnswer;
-let questionID;
-let correctAnswer;
-let receivedQuestions;
-let testStatus = "new";
-let totalQuestions = 0;
-let correctAnswers = 0;
-let wrongAnswers = 0;
-let questionNumber = 0;
+	let theResponse;
+	let testID;
+	let testName;
+	let userName;
+	let userAnswer;
+	let questionID;
+	let correctAnswer;
+	let receivedQuestions;
+	let testStatus = "new";
+	let totalQuestions = 0;
+	let correctAnswers = 0;
+	let wrongAnswers = 0;
+	let questionNumber = 0;
 
-const quizContainer = document.getElementById("quiz");
-const testTitle = document.getElementById("testTitle");
-const controlButton = document.getElementById("controlButton");
-const progressBar = document.getElementById("progressBar");
-const warningLabel = document.getElementById("warningLabel");
+	const quizContainer = document.getElementById("quiz");
+	const testTitle = document.getElementById("testTitle");
+	const controlButton = document.getElementById("controlButton");
+	const progressBar = document.getElementById("progressBar");
+	const warningLabel = document.getElementById("warningLabel");
 
-// add onClick listener to main button
-controlButton.addEventListener("click", buttonPress);
+	// add onClick listener to main button
+	controlButton.addEventListener("click", buttonPress);
 
-// call PHP to get the tests from db
-ajax_post("getTests"); 
+	// call PHP to get the tests from db
+	ajax_post("getTests"); 
 
 })();
