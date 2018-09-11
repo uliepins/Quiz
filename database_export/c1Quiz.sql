@@ -40,7 +40,7 @@ INSERT INTO `Answers` (`QuestionID`, `AnswerLetter`, `Answer`) VALUES
 (1, 'A', 'Daugava'),
 (1, 'B', 'Lielupe'),
 (1, 'C', 'Gauja'),
-(1, 'C', 'Irbe'),
+(1, 'D', 'Irbe'),
 (2, 'A', 'Valmiera'),
 (2, 'B', 'Daugavpils'),
 (2, 'C', 'Rīga'),
